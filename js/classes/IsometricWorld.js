@@ -1,4 +1,4 @@
-import { GridTile } from './classes/GridTile.js';
+import { GridTile } from './GridTile.js';
 
 export class IsometricWorld {
     constructor(gridSize) {

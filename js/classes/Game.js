@@ -1,7 +1,7 @@
-import { IsometricWorld } from './classes/IsometricWorld.js';
-import { Player } from './classes/Player.js';
-import { InputManager } from './classes/InputManager.js';
-import { PlantManager } from './classes/PlantManager.js';
+import { IsometricWorld } from './IsometricWorld.js';
+import { Player } from './Player.js';
+import { InputManager } from './InputManager.js';
+import { PlantManager } from './PlantManager.js';
 
 export class Game {
     constructor(inventoryManager) {

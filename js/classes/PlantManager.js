@@ -1,5 +1,5 @@
-import { Plant } from './classes/Plant.js';
-import { Notification } from './classes/Notification.js';
+import { Plant } from './Plant.js';
+import { Notification } from './Notification.js';
 
 export class PlantManager {
     constructor(world, inventoryManager) {
