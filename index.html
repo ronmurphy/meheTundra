@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Isometric Farm Game</title>
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Shoelace Components -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.11.2/cdn/themes/light.css" />
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.11.2/cdn/shoelace-autoloader.js"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div id="info">Isometric Farm Game</div>
+    
+    <div id="controls" class="mobile-only">
+        <div id="thumbstick-area">
+            <div id="thumbstick-base"></div>
+            <div id="thumbstick-knob"></div>
+        </div>
+        <sl-button id="action-btn" class="control-btn" circle>
+            <span class="material-icons">eco</span>
+        </sl-button>
+    </div>
+    
+    <sl-dialog id="game-instructions" label="How to Play" style="--width: 400px;">
+        <ul>
+            <li><span class="material-icons">navigation</span> Move using arrow keys or virtual joystick</li>
+            <li><span class="material-icons">eco</span> Press space or action button to plant, water, or harvest</li>
+            <li><span class="material-icons">schedule</span> Plants grow automatically over time</li>
+            <li><span class="material-icons">star</span> Harvest fully grown plants for points</li>
+        </ul>
+        <sl-button id="close-instructions" slot="footer" variant="primary">
+            Got it!
+        </sl-button>
+    </sl-dialog>
+    
+    <sl-button id="open-inventory" class="inventory-btn" circle>
+        <span class="material-icons">inventory_2</span>
+    </sl-button>
+    
+    <sl-drawer id="inventory-drawer" label="Inventory" placement="end">
+        <div id="inventory-container">
+            <!-- Inventory items will be added here dynamically -->
+        </div>
+        <sl-button slot="footer" id="close-inventory" variant="primary">Close</sl-button>
+    </sl-drawer>
+    <!-- Three.js -->
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.1/three.min.js"></script> -->
+
+<!-- Three.js -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r160.1/three.min.js"></script> -->
+
+<script type="module">
+    import * as THREE from 'https://unpkg.com/three@0.160.1/build/three.module.js';
+    window.THREE = THREE; // Make THREE globally available
+  </script>
+
+  <script src="js/libs/nipplejs.min.js"></script>
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

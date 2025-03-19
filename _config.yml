@@ -1,0 +1,6 @@
+include: [".nojekyll"]
+defaults:
+  - scope:
+      path: "js/**/*.js"
+    values:
+      content_type: "application/javascript"

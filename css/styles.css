@@ -1,0 +1,1146 @@
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    touch-action: none;
+    background-color: #87CEEB; /* Sky blue background */
+}
+
+canvas {
+    display: block;
+}
+
+#info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    font-family: Arial, sans-serif;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    pointer-events: none;
+}
+
+#controls {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+#thumbstick-area {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-left: 20px;
+    pointer-events: auto;
+}
+
+#thumbstick-base {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#thumbstick-knob {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.control-btn {
+    width: 70px;
+    height: 70px;
+    margin-right: 20px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    border: none;
+    pointer-events: auto;
+    user-select: none;
+}
+
+/* Hide mobile controls on desktop */
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    touch-action: none;
+    background-color: #87CEEB; /* Sky blue background */
+    font-family: Arial, sans-serif;
+}
+
+canvas {
+    display: block;
+}
+
+#info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    pointer-events: none;
+    line-height: 1.4;
+}
+
+#controls {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+#thumbstick-area {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-left: 20px;
+    pointer-events: auto;
+}
+
+#thumbstick-base {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#thumbstick-knob {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.control-btn {
+    width: 70px;
+    height: 70px;
+    margin-right: 20px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    border: none;
+    pointer-events: auto;
+    user-select: none;
+}
+
+.game-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    max-width: 80%;
+}
+
+.game-popup h2 {
+    margin-top: 0;
+    color: #333;
+    text-align: center;
+}
+
+.game-popup ul {
+    padding-left: 20px;
+}
+
+.game-popup li {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.close-btn {
+    display: block;
+    margin: 15px auto 0;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.close-btn:hover {
+    background-color: #45a049;
+}
+
+/* Hide mobile controls on desktop */
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none;
+    }
+}
+
+/* Notification animation */
+@keyframes float-up {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    touch-action: none;
+    background-color: #87CEEB; /* Sky blue background */
+    font-family: Arial, sans-serif;
+}
+
+canvas {
+    display: block;
+}
+
+#info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    pointer-events: none;
+    line-height: 1.4;
+}
+
+#controls {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+}
+
+#thumbstick-area {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-left: 20px;
+    pointer-events: auto;
+}
+
+#thumbstick-base {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#thumbstick-knob {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.control-btn {
+    width: 70px;
+    height: 70px;
+    margin-right: 20px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    border: none;
+    pointer-events: auto;
+    user-select: none;
+    cursor: pointer;
+}
+
+.game-popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 100;
+    max-width: 80%;
+    pointer-events: auto;
+}
+
+.game-popup h2 {
+    margin-top: 0;
+    color: #333;
+    text-align: center;
+}
+
+.game-popup ul {
+    padding-left: 20px;
+}
+
+.game-popup li {
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.close-btn {
+    display: block;
+    margin: 15px auto 0;
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.close-btn:hover {
+    background-color: #45a049;
+}
+
+/* Hide mobile controls on desktop */
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none;
+    }
+}
+
+/* Notification animation */
+@keyframes float-up {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    touch-action: none;
+    background-color: #87CEEB; /* Sky blue background */
+    font-family: var(--sl-font-sans);
+    color: var(--sl-color-neutral-900);
+}
+
+canvas {
+    display: block;
+}
+
+#info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    pointer-events: none;
+    line-height: 1.4;
+    z-index: 10;
+}
+
+#controls {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 10;
+}
+
+#thumbstick-area {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-left: 20px;
+    pointer-events: auto;
+}
+
+#thumbstick-base {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#thumbstick-knob {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.control-btn {
+    margin-right: 20px;
+    pointer-events: auto;
+}
+
+/* Material Icons in Shoelace buttons */
+.material-icons {
+    font-size: 24px;
+    vertical-align: middle;
+}
+
+/* Instructions dialog */
+sl-dialog ul {
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+sl-dialog li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+sl-dialog li .material-icons {
+    margin-right: 10px;
+    color: var(--sl-color-primary-600);
+}
+
+/* Inventory button */
+.inventory-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+/* Inventory grid */
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    padding: 10px;
+}
+
+.inventory-item {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border: 1px solid var(--sl-color-neutral-300);
+    border-radius: var(--sl-border-radius-medium);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--sl-color-neutral-100);
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.inventory-item:hover {
+    background-color: var(--sl-color-neutral-200);
+}
+
+.inventory-item .material-icons {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.inventory-item .item-count {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.inventory-item .item-name {
+    font-size: 10px;
+    text-align: center;
+}
+
+/* Hide mobile controls on desktop */
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none;
+    }
+}
+
+/* Notification animation */
+@keyframes float-up {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    touch-action: none;
+    background-color: #87CEEB; /* Sky blue background */
+    font-family: var(--sl-font-sans);
+    color: var(--sl-color-neutral-900);
+}
+
+canvas {
+    display: block;
+}
+
+#info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    pointer-events: none;
+    line-height: 1.4;
+    z-index: 10;
+}
+
+#controls {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 10;
+}
+
+#thumbstick-area {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-left: 20px;
+    pointer-events: auto;
+}
+
+#thumbstick-base {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#thumbstick-knob {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.control-btn {
+    margin-right: 20px;
+    pointer-events: auto;
+}
+
+/* Material Icons in Shoelace buttons */
+.material-icons {
+    font-size: 24px;
+    vertical-align: middle;
+}
+
+/* Instructions dialog */
+sl-dialog ul {
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+sl-dialog li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+sl-dialog li .material-icons {
+    margin-right: 10px;
+    color: var(--sl-color-primary-600);
+}
+
+/* Inventory button */
+.inventory-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+/* Inventory styles */
+#inventory-container {
+    padding: 10px;
+}
+
+.inventory-header {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid var(--sl-color-neutral-300);
+}
+
+.inventory-header h3 {
+    margin: 0;
+    padding: 5px 0;
+    color: var(--sl-color-primary-700);
+}
+
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.inventory-item {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border: 1px solid var(--sl-color-neutral-300);
+    border-radius: var(--sl-border-radius-medium);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--sl-color-neutral-100);
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.inventory-item:hover {
+    background-color: var(--sl-color-neutral-200);
+}
+
+.inventory-item.selected {
+    background-color: var(--sl-color-primary-100);
+    border-color: var(--sl-color-primary-500);
+}
+
+.inventory-item .material-icons {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.inventory-item .item-count {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.inventory-item .item-name {
+    font-size: 10px;
+    text-align: center;
+}
+
+/* Hide mobile controls on desktop */
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none;
+    }
+}
+
+/* Notification animation */
+@keyframes float-up {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    touch-action: none;
+    background-color: #87CEEB; /* Sky blue background */
+    font-family: var(--sl-font-sans);
+    color: var(--sl-color-neutral-900);
+}
+
+canvas {
+    display: block;
+}
+
+#info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    pointer-events: none;
+    line-height: 1.4;
+    z-index: 10;
+}
+
+#controls {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 10;
+}
+
+#thumbstick-area {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-left: 20px;
+    pointer-events: auto;
+}
+
+#thumbstick-base {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#thumbstick-knob {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.control-btn {
+    margin-right: 20px;
+    pointer-events: auto;
+    position: relative;
+}
+
+/* Seed count badge */
+.seed-count-badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: var(--sl-color-danger-600);
+    color: white;
+    border-radius: 50%;
+    min-width: 22px;
+    height: 22px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2px;
+}
+
+/* Material Icons in Shoelace buttons */
+.material-icons {
+    font-size: 24px;
+    vertical-align: middle;
+}
+
+/* Instructions dialog */
+sl-dialog ul {
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+sl-dialog li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+sl-dialog li .material-icons {
+    margin-right: 10px;
+    color: var(--sl-color-primary-600);
+}
+
+/* Inventory button */
+.inventory-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+/* Inventory styles */
+#inventory-container {
+    padding: 10px;
+}
+
+.inventory-header {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid var(--sl-color-neutral-300);
+}
+
+.inventory-header h3 {
+    margin: 0;
+    padding: 5px 0;
+    color: var(--sl-color-primary-700);
+}
+
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.inventory-item {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border: 1px solid var(--sl-color-neutral-300);
+    border-radius: var(--sl-border-radius-medium);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--sl-color-neutral-100);
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.inventory-item:hover {
+    background-color: var(--sl-color-neutral-200);
+}
+
+.inventory-item.selected {
+    background-color: var(--sl-color-primary-100);
+    border-color: var(--sl-color-primary-500);
+}
+
+.inventory-item .material-icons {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.inventory-item .item-count {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.inventory-item .item-name {
+    font-size: 10px;
+    text-align: center;
+}
+
+/* Toast notification */
+.toast {
+    visibility: hidden;
+    position: fixed;
+    bottom: 60px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    z-index: 100;
+    font-size: 14px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.toast.show {
+    visibility: visible;
+    animation: fadein 0.3s, fadeout 0.3s 2.7s;
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+    to {
+        bottom: 60px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 60px;
+        opacity: 1;
+    }
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+/* Hide mobile controls on desktop */
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none;
+    }
+}
+
+/* Notification animation */
+@keyframes float-up {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+}body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    touch-action: none;
+    background-color: #87CEEB; /* Sky blue background */
+    font-family: var(--sl-font-sans);
+    color: var(--sl-color-neutral-900);
+}
+
+canvas {
+    display: block;
+}
+
+#info {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 10px;
+    border-radius: 5px;
+    pointer-events: none;
+    line-height: 1.4;
+    z-index: 10;
+}
+
+#controls {
+    position: absolute;
+    bottom: 20px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 10;
+}
+
+#thumbstick-area {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin-left: 20px;
+    pointer-events: auto;
+}
+
+#thumbstick-base {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+#thumbstick-knob {
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.7);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.control-btn {
+    margin-right: 20px;
+    pointer-events: auto;
+}
+
+/* Material Icons in Shoelace buttons */
+.material-icons {
+    font-size: 24px;
+    vertical-align: middle;
+}
+
+/* Instructions dialog */
+sl-dialog ul {
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+sl-dialog li {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+sl-dialog li .material-icons {
+    margin-right: 10px;
+    color: var(--sl-color-primary-600);
+}
+
+/* Inventory button */
+.inventory-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 10;
+}
+
+/* Inventory styles */
+#inventory-container {
+    padding: 10px;
+}
+
+.inventory-header {
+    margin-top: 15px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid var(--sl-color-neutral-300);
+}
+
+.inventory-header h3 {
+    margin: 0;
+    padding: 5px 0;
+    color: var(--sl-color-primary-700);
+}
+
+.inventory-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    padding: 10px 0;
+}
+
+.inventory-item {
+    width: 100%;
+    aspect-ratio: 1/1;
+    border: 1px solid var(--sl-color-neutral-300);
+    border-radius: var(--sl-border-radius-medium);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--sl-color-neutral-100);
+    padding: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.inventory-item:hover {
+    background-color: var(--sl-color-neutral-200);
+}
+
+.inventory-item.selected {
+    background-color: var(--sl-color-primary-100);
+    border-color: var(--sl-color-primary-500);
+}
+
+.inventory-item .material-icons {
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.inventory-item .item-count {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.inventory-item .item-name {
+    font-size: 10px;
+    text-align: center;
+}
+
+/* Hide mobile controls on desktop */
+@media (min-width: 769px) {
+    .mobile-only {
+        display: none;
+    }
+}
+
+/* Notification animation */
+@keyframes float-up {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(-50px);
+        opacity: 0;
+    }
+}

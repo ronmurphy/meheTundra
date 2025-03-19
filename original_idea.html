@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Isometric Farm Game</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            touch-action: none;
+            background-color: #87CEEB; /* Sky blue background */
+        }
+        canvas {
+            display: block;
+        }
+        #info {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            font-family: Arial, sans-serif;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 5px;
+            pointer-events: none;
+        }
+        #controls {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            pointer-events: none;
+        }
+        .control-btn {
+            width: 60px;
+            height: 60px;
+            margin: 0 10px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: none;
+            pointer-events: auto;
+            user-select: none;
+        }
+    </style>
+</head>
+<body>
+    <div id="info">Isometric Farm Game</div>
+    <div id="controls" class="mobile-only">
+        <button id="left-btn" class="control-btn">←</button>
+        <button id="right-btn" class="control-btn">→</button>
+        <button id="up-btn" class="control-btn">↑</button>
+        <button id="down-btn" class="control-btn">↓</button>
+        <button id="action-btn" class="control-btn">🔨</button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        // Game variables
+        const GRID_SIZE = 10;
+        const TILE_SIZE = 1;
+        let playerPosition = { x: 0, y: 0 };
+        
+        // Three.js setup
+        const scene = new THREE.Scene();
+        
+        // Create a camera with isometric perspective
+        const aspect = window.innerWidth / window.innerHeight;
+        const camera = new THREE.OrthographicCamera(
+            -5 * aspect, 5 * aspect, 5, -5, 0.1, 1000
+        );
+        
+        // Position for isometric view
+        camera.position.set(10, 10, 10);
+        camera.lookAt(0, 0, 0);
+        
+        // Create renderer
+        const renderer = new THREE.WebGLRenderer({ antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x87CEEB); // Sky blue background
+        document.body.appendChild(renderer.domElement);
+        
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+        
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+        directionalLight.position.set(5, 10, 5);
+        directionalLight.castShadow = true;
+        scene.add(directionalLight);
+        
+        // Create farm grid
+        function createFarmGrid() {
+            const gridGroup = new THREE.Group();
+            
+            // Create tiles
+            for (let x = -GRID_SIZE / 2; x < GRID_SIZE / 2; x++) {
+                for (let z = -GRID_SIZE / 2; z < GRID_SIZE / 2; z++) {
+                    const tileGeometry = new THREE.BoxGeometry(TILE_SIZE, 0.1, TILE_SIZE);
+                    
+                    // Alternate tile colors for checkerboard effect
+                    const isEven = (x + z) % 2 === 0;
+                    const tileColor = isEven ? 0x8B4513 : 0xA0522D; // Brown colors for soil
+                    
+                    const tileMaterial = new THREE.MeshStandardMaterial({ color: tileColor });
+                    const tile = new THREE.Mesh(tileGeometry, tileMaterial);
+                    
+                    tile.position.set(x * TILE_SIZE, 0, z * TILE_SIZE);
+                    tile.userData = { type: 'tile', gridX: x, gridZ: z, planted: false };
+                    
+                    gridGroup.add(tile);
+                }
+            }
+            
+            return gridGroup;
+        }
+        
+        // Create player character
+        function createPlayer() {
+            const playerGroup = new THREE.Group();
+            
+            // Basic player body
+            const bodyGeometry = new THREE.BoxGeometry(0.5, 0.8, 0.5);
+            const bodyMaterial = new THREE.MeshStandardMaterial({ color: 0x3366FF });
+            const body = new THREE.Mesh(bodyGeometry, bodyMaterial);
+            body.position.y = 0.4;
+            playerGroup.add(body);
+            
+            // Head
+            const headGeometry = new THREE.SphereGeometry(0.25, 16, 16);
+            const headMaterial = new THREE.MeshStandardMaterial({ color: 0xFFCCCC });
+            const head = new THREE.Mesh(headGeometry, headMaterial);
+            head.position.y = 0.9;
+            playerGroup.add(head);
+            
+            return playerGroup;
+        }
+        
+        // Create a plant
+        function createPlant(growthStage = 0) {
+            const plantGroup = new THREE.Group();
+            
+            // Base/soil
+            const baseGeometry = new THREE.CylinderGeometry(0.2, 0.25, 0.1, 8);
+            const baseMaterial = new THREE.MeshStandardMaterial({ color: 0x3D2817 });
+            const base = new THREE.Mesh(baseGeometry, baseMaterial);
+            base.position.y = 0.05;
+            plantGroup.add(base);
+            
+            // Plant based on growth stage (0-3)
+            if (growthStage > 0) {
+                const stemHeight = 0.1 + (growthStage * 0.1);
+                const stemGeometry = new THREE.CylinderGeometry(0.03, 0.03, stemHeight, 8);
+                const stemMaterial = new THREE.MeshStandardMaterial({ color: 0x228B22 });
+                const stem = new THREE.Mesh(stemGeometry, stemMaterial);
+                stem.position.y = 0.1 + (stemHeight / 2);
+                plantGroup.add(stem);
+                
+                if (growthStage > 1) {
+                    // Add leaves
+                    const leafSize = 0.05 + (growthStage * 0.03);
+                    const leafGeometry = new THREE.SphereGeometry(leafSize, 8, 8);
+                    const leafMaterial = new THREE.MeshStandardMaterial({ color: 0x32CD32 });
+                    
+                    const leaf1 = new THREE.Mesh(leafGeometry, leafMaterial);
+                    leaf1.position.set(0.1, 0.15 + (growthStage * 0.05), 0);
+                    leaf1.scale.set(1.5, 0.5, 1);
+                    plantGroup.add(leaf1);
+                    
+                    const leaf2 = new THREE.Mesh(leafGeometry, leafMaterial);
+                    leaf2.position.set(-0.1, 0.17 + (growthStage * 0.05), 0);
+                    leaf2.scale.set(1.5, 0.5, 1);
+                    plantGroup.add(leaf2);
+                    
+                    if (growthStage > 2) {
+                        // Add fruit/flower when fully grown
+                        const fruitGeometry = new THREE.SphereGeometry(0.1, 8, 8);
+                        const fruitMaterial = new THREE.MeshStandardMaterial({ color: 0xFF6347 });
+                        const fruit = new THREE.Mesh(fruitGeometry, fruitMaterial);
+                        fruit.position.y = 0.3 + (growthStage * 0.05);
+                        plantGroup.add(fruit);
+                    }
+                }
+            }
+            
+            return plantGroup;
+        }
+        
+        // Create farm elements
+        const farmGrid = createFarmGrid();
+        scene.add(farmGrid);
+        
+        const player = createPlayer();
+        scene.add(player);
+        updatePlayerPosition();
+        
+        // Plants storage
+        const plants = {};
+        
+        // Handle window resize
+        window.addEventListener('resize', onWindowResize, false);
+        
+        function onWindowResize() {
+            const aspect = window.innerWidth / window.innerHeight;
+            camera.left = -5 * aspect;
+            camera.right = 5 * aspect;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        
+        // Input handling
+        const keys = {
+            ArrowUp: false,
+            ArrowDown: false,
+            ArrowLeft: false,
+            ArrowRight: false,
+            ' ': false
+        };
+        
+        window.addEventListener('keydown', (e) => {
+            if (keys[e.key] !== undefined) {
+                keys[e.key] = true;
+            }
+        });
+        
+        window.addEventListener('keyup', (e) => {
+            if (keys[e.key] !== undefined) {
+                keys[e.key] = false;
+            }
+        });
+        
+        // Mobile controls
+        document.getElementById('up-btn').addEventListener('pointerdown', () => keys.ArrowUp = true);
+        document.getElementById('up-btn').addEventListener('pointerup', () => keys.ArrowUp = false);
+        document.getElementById('down-btn').addEventListener('pointerdown', () => keys.ArrowDown = true);
+        document.getElementById('down-btn').addEventListener('pointerup', () => keys.ArrowDown = false);
+        document.getElementById('left-btn').addEventListener('pointerdown', () => keys.ArrowLeft = true);
+        document.getElementById('left-btn').addEventListener('pointerup', () => keys.ArrowLeft = false);
+        document.getElementById('right-btn').addEventListener('pointerdown', () => keys.ArrowRight = true);
+        document.getElementById('right-btn').addEventListener('pointerup', () => keys.ArrowRight = false);
+        document.getElementById('action-btn').addEventListener('pointerdown', () => keys[' '] = true);
+        document.getElementById('action-btn').addEventListener('pointerup', () => keys[' '] = false);
+        
+        // Prevent default touch behavior
+        document.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+        
+        // Player movement
+        function updatePlayerPosition() {
+            // Position player on grid
+            player.position.x = playerPosition.x;
+            player.position.z = playerPosition.y;
+            player.position.y = 0.5; // Offset to place on top of tile
+            
+            // Update camera to follow player
+            const cameraTarget = new THREE.Vector3(
+                playerPosition.x,
+                0,
+                playerPosition.y
+            );
+            camera.lookAt(cameraTarget);
+        }
+        
+        // Plant action
+        function performAction() {
+            const gridKey = `${playerPosition.x},${playerPosition.y}`;
+            
+            if (plants[gridKey]) {
+                // Harvest if fully grown
+                if (plants[gridKey].userData.growthStage === 3) {
+                    scene.remove(plants[gridKey]);
+                    delete plants[gridKey];
+                } else {
+                    // Water/grow the plant
+                    scene.remove(plants[gridKey]);
+                    const newGrowthStage = plants[gridKey].userData.growthStage + 1;
+                    const newPlant = createPlant(newGrowthStage);
+                    newPlant.position.set(playerPosition.x, 0, playerPosition.y);
+                    newPlant.userData = { growthStage: newGrowthStage };
+                    scene.add(newPlant);
+                    plants[gridKey] = newPlant;
+                }
+            } else {
+                // Plant a new seed
+                const plant = createPlant(0);
+                plant.position.set(playerPosition.x, 0, playerPosition.y);
+                plant.userData = { growthStage: 0 };
+                scene.add(plant);
+                plants[gridKey] = plant;
+            }
+        }
+        
+        // Game loop
+        let lastTime = 0;
+        const moveSpeed = 2; // Grid squares per second
+        
+        function animate(time) {
+            requestAnimationFrame(animate);
+            
+            const delta = time - lastTime;
+            lastTime = time;
+            
+            // Handle input (with time-based movement)
+            const moveAmount = moveSpeed * (delta / 1000);
+            
+            if (keys.ArrowUp) {
+                playerPosition.y -= moveAmount;
+                if (playerPosition.y < -GRID_SIZE / 2) playerPosition.y = -GRID_SIZE / 2;
+            }
+            if (keys.ArrowDown) {
+                playerPosition.y += moveAmount;
+                if (playerPosition.y > GRID_SIZE / 2 - 1) playerPosition.y = GRID_SIZE / 2 - 1;
+            }
+            if (keys.ArrowLeft) {
+                playerPosition.x -= moveAmount;
+                if (playerPosition.x < -GRID_SIZE / 2) playerPosition.x = -GRID_SIZE / 2;
+            }
+            if (keys.ArrowRight) {
+                playerPosition.x += moveAmount;
+                if (playerPosition.x > GRID_SIZE / 2 - 1) playerPosition.x = GRID_SIZE / 2 - 1;
+            }
+            
+            // Space to plant/interact
+            if (keys[' ']) {
+                keys[' '] = false; // One-shot action
+                performAction();
+            }
+            
+            updatePlayerPosition();
+            
+            // Render the scene
+            renderer.render(scene, camera);
+        }
+        
+        animate(0);
+    </script>
+</body>
+</html>
