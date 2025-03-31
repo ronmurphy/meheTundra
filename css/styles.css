@@ -1144,3 +1144,58 @@ sl-dialog li .material-icons {
         opacity: 0;
     }
 }
+
+/* Material Icons proper styling */
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    display: inline-block;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+/* Ensure proper sizing in buttons */
+sl-button .material-icons {
+    margin: auto;
+}
+
+/* Remove or comment out these joystick-related styles */
+#thumbstick-area,
+#thumbstick-base,
+#thumbstick-knob {
+    display: none;
+}
+
+#action-controls {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    z-index: 100; /* Increased z-index */
+    /* Remove pointer-events: none from the container */
+}
+
+.control-btn {
+    pointer-events: auto;
+    /* Add these to make sure it's visible */
+    display: flex !important;  
+    width: 70px;
+    height: 70px;
+    background-color: rgba(255, 255, 255, 0.7);
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+/* Make sure the icon is visible */
+.control-btn .material-icons {
+    font-size: 28px;
+    color: #4CAF50;
+}

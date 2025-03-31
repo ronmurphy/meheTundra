@@ -105,4 +105,30 @@ export class IsometricWorld {
             tile.gridX === gridX && tile.gridY === gridY
         );
     }
+
+    // In IsometricWorld.js - Add a raycasting method to find clicked/tapped tile:
+getTileFromScreenPosition(screenX, screenY) {
+    // Create a raycaster
+    const raycaster = new THREE.Raycaster();
+    
+    // Convert screen coordinates to normalized device coordinates
+    const mouse = new THREE.Vector2();
+    mouse.x = (screenX / window.innerWidth) * 2 - 1;
+    mouse.y = -(screenY / window.innerHeight) * 2 + 1;
+    
+    // Set raycaster from camera position
+    raycaster.setFromCamera(mouse, this.camera);
+    
+    // Find intersected objects (tiles)
+    const tileObjects = this.gridTiles.map(tile => tile.mesh);
+    const intersects = raycaster.intersectObjects(tileObjects, false);
+    
+    if (intersects.length > 0) {
+        // Return the userData of the first intersected tile
+        return intersects[0].object.userData;
+    }
+    
+    return null;
+}
+
 }

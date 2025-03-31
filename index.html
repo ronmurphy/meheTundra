@@ -6,23 +6,19 @@
     <title>Isometric Farm Game</title>
     
     <!-- Material Icons -->
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
-    <!-- Shoelace Components -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.11.2/cdn/themes/light.css" />
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.11.2/cdn/shoelace-autoloader.js"></script>
-    
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<!-- Shoelace Components -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.14.0/cdn/themes/light.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.14.0/cdn/shoelace-autoloader.js"></script>    
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
     <div id="info">Isometric Farm Game</div>
     
-    <div id="controls" class="mobile-only">
-        <div id="thumbstick-area">
-            <div id="thumbstick-base"></div>
-            <div id="thumbstick-knob"></div>
-        </div>
+    <div id="action-controls">
         <sl-button id="action-btn" class="control-btn" circle>
             <span class="material-icons">eco</span>
         </sl-button>
@@ -61,7 +57,30 @@
     window.THREE = THREE; // Make THREE globally available
   </script>
 
-  <script src="js/libs/nipplejs.min.js"></script>
+
+<script>
+  // Attempt to unregister any service workers
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then(function(registrations) {
+      for (let registration of registrations) {
+        console.log('Unregistering service worker:', registration.scope);
+        registration.unregister().then(function(success) {
+          console.log('Service worker unregistered successfully:', success);
+          // Force clear cache after unregistering
+          caches.keys().then(function(cacheNames) {
+            return Promise.all(
+              cacheNames.map(function(cacheName) {
+                console.log('Deleting cache:', cacheName);
+                return caches.delete(cacheName);
+              })
+            );
+          });
+        });
+      }
+    });
+  }
+</script>
+
   <script type="module" src="js/main.js"></script>
 </body>
 </html>

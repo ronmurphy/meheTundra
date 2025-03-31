@@ -51,6 +51,21 @@ export class Game {
         
         // Update info display
         this.updateInfoDisplay();
+
+            // Setup click/tap controls for movement
+    this.input.setClickCallback((x, y) => {
+        const tileData = this.world.getTileFromScreenPosition(x, y);
+        if (tileData) {
+            this.movePlayerToTile(tileData.gridX, tileData.gridY);
+        }
+    });
+
+    }
+
+    movePlayerToTile(targetX, targetY) {
+        this.targetX = targetX;
+        this.targetY = targetY;
+        this.isMovingToTarget = true;
     }
     
     start() {
@@ -77,33 +92,64 @@ export class Game {
         this.world.render();
     }
     
-// Add this to the Game.js update method, after updating player position
-update(delta) {
-    // Get input direction
-    const direction = this.input.getDirection();
-    
-    // Move player based on input direction and time delta
-    const moveSpeed = 2; // Grid squares per second
-    const moveAmount = moveSpeed * (delta / 1000);
-    
-    // Isometric movement - transform NESW directions to isometric grid
-    let dx = 0;
-    let dy = 0;
-    
-    // Convert from screen space to isometric space
-    if (direction.x !== 0 || direction.y !== 0) {
-        // Normalize the direction vector for consistent movement speed in all directions
-        const length = Math.sqrt(direction.x * direction.x + direction.y * direction.y);
-        const normalizedX = direction.x / length;
-        const normalizedY = direction.y / length;
+    update(delta) {
+
+            // If we're moving to a target position
+            if (this.isMovingToTarget) {
+                const playerPos = this.player.getGridPosition();
+                
+                // Calculate direction to target
+                const dirX = this.targetX - playerPos.x;
+                const dirY = this.targetY - playerPos.y;
+                
+                // Calculate distance to target
+                const distance = Math.sqrt(dirX * dirX + dirY * dirY);
+                
+                // If we're close enough, stop moving
+                if (distance < 0.1) {
+                    this.isMovingToTarget = false;
+                    return;
+                }
+                
+                // Normalize direction
+                const moveSpeed = 2; // Grid squares per second
+                const moveAmount = moveSpeed * (delta / 1000);
+                
+                const normalizedX = dirX / distance;
+                const normalizedY = dirY / distance;
+                
+                // Convert to isometric space
+                const dx = (normalizedX - normalizedY) * moveAmount;
+                const dy = (normalizedX + normalizedY) * moveAmount / 2;
+                
+                // Move player
+                this.player.move(dx, dy, this.GRID_SIZE);
+            } else {// Get input direction
+        const direction = this.input.getDirection();
         
-        // Transform to isometric coordinates
-        dx = (normalizedX - normalizedY) * moveAmount;
-        dy = (normalizedX + normalizedY) * moveAmount / 2;
-    }
-    
-    // Update player position
-    this.player.move(dx, dy, this.GRID_SIZE);
+        // Move player based on input direction and time delta
+        const moveSpeed = 2; // Grid squares per second
+        const moveAmount = moveSpeed * (delta / 1000);
+        
+        let dx = 0;
+        let dy = 0;
+        
+        if (direction.x !== 0 || direction.y !== 0) {
+            // Normalize for consistent speed in all directions
+            const length = Math.sqrt(direction.x * direction.x + direction.y * direction.y);
+            if (length > 0) {
+                const normalizedX = direction.x / length;
+                const normalizedY = direction.y / length;
+                
+                // Convert to isometric space (this is the key fix)
+                // For isometric at 45 degrees rotation:
+                dx = (normalizedX - normalizedY) * moveAmount;
+                dy = (normalizedX + normalizedY) * moveAmount / 2;
+            }
+        }
+        
+        // Update player position
+        this.player.move(dx, dy, this.GRID_SIZE);
     
     // Update world camera to follow player
     this.world.updateCamera(this.player.position);
@@ -114,6 +160,7 @@ update(delta) {
     // Update plant growth
     this.plantManager.update(delta);
 }
+    }
 
 // Add this new method to Game.js
 checkForHarvestableNeighbors() {

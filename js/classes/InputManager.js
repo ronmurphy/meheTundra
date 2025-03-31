@@ -41,89 +41,106 @@ export class InputManager {
         });
     }
     
-    setupTouchControls() {
-        // Setup virtual joystick using nippleJS
-        const thumbstickArea = document.getElementById('thumbstick-area');
+//     setupTouchControls() {
+//         // Setup virtual joystick using nippleJS
+//         const thumbstickArea = document.getElementById('thumbstick-area');
         
-        if (thumbstickArea) {
-            this.joystick = nipplejs.create({
-                zone: thumbstickArea,
-                mode: 'static',
-                position: { left: '50%', top: '50%' },
-                color: 'white',
-                size: 120,
-                lockX: false,
-                lockY: false
-            });
+//         if (thumbstickArea) {
+//             this.joystick = nipplejs.create({
+//                 zone: thumbstickArea,
+//                 mode: 'static',
+//                 position: { left: '50%', top: '50%' },
+//                 color: 'white',
+//                 size: 120,
+//                 lockX: false,
+//                 lockY: false
+//             });
             
-            // Joystick events
-            this.joystick.on('start', () => {
-                this.joystickActive = true;
-            });
+//             // Joystick events
+//             this.joystick.on('start', () => {
+//                 this.joystickActive = true;
+//             });
             
-            // this.joystick.on('move', (_, data) => {
-            //     const angle = data.angle.radian;
-            //     const force = Math.min(1, data.force);
-                
-            //     // Invert X but keep Y direction for proper control
-            //     const adjustedAngle = angle - Math.PI / 4;
-            //     this.joystickVector.x = -force * Math.cos(adjustedAngle); // X inverted
-            //     this.joystickVector.y = force * Math.sin(adjustedAngle);  // Y not inverted
-            // });
-
-            // Simplified joystick controls in InputManager.js
-this.joystick.on('move', (_, data) => {
-    const angle = data.angle.radian;
-    const force = Math.min(1, data.force);
+// // Replace the current joystick 'move' event handler with this:
+// this.joystick.on('move', (_, data) => {
+//     const angle = data.angle.radian;
+//     const force = Math.min(1, data.force);
     
-    // Simple directional vector without rotation
-    this.joystickVector.x = force * Math.cos(angle);
-    this.joystickVector.y = force * Math.sin(angle);
-});
+//     // Adjust angle for isometric view (rotate by 45 degrees)
+//     const isoAngle = angle - Math.PI / 4;
+//     this.joystickVector.x = force * Math.cos(isoAngle);
+//     this.joystickVector.y = force * Math.sin(isoAngle);
+// });
 
-// Then in getDirection():
-if (this.joystickActive) {
-    dirX = this.joystickVector.x;
-    dirY = -this.joystickVector.y; // Just invert Y for top-down view
+// // And update this part of getDirection():
+// if (this.joystickActive) {
+//     dirX = this.joystickVector.x;
+//     dirY = -this.joystickVector.y; 
+// }
+
+// // Then in getDirection():
+// if (this.joystickActive) {
+//     dirX = this.joystickVector.x;
+//     dirY = -this.joystickVector.y; // Just invert Y for top-down view
+// }
+            
+//             this.joystick.on('end', () => {
+//                 this.joystickActive = false;
+//                 this.joystickVector.x = 0;
+//                 this.joystickVector.y = 0;
+//             });
+//         }
+        
+//         // Setup action button for mobile
+//         const actionBtn = document.getElementById('action-btn');
+//         if (actionBtn && this.actionCallback) {
+//             actionBtn.addEventListener('pointerdown', () => {
+//                 this.actionCallback();
+//             });
+//         }
+        
+//         // Prevent default touch behavior
+//         document.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
+//     }
+
+// In InputManager.js - Add touch/click handling:
+setupTouchControls() {
+    // Add click/tap event to the renderer
+    const canvas = document.querySelector('canvas');
+    if (canvas) {
+        canvas.addEventListener('click', (e) => {
+            if (this.clickCallback) {
+                this.clickCallback(e.clientX, e.clientY);
+            }
+        });
+        
+        canvas.addEventListener('touchend', (e) => {
+            if (e.changedTouches.length > 0 && this.clickCallback) {
+                const touch = e.changedTouches[0];
+                this.clickCallback(touch.clientX, touch.clientY);
+            }
+        });
+    }
 }
-            
-            this.joystick.on('end', () => {
-                this.joystickActive = false;
-                this.joystickVector.x = 0;
-                this.joystickVector.y = 0;
-            });
-        }
-        
-        // Setup action button for mobile
-        const actionBtn = document.getElementById('action-btn');
-        if (actionBtn && this.actionCallback) {
-            actionBtn.addEventListener('pointerdown', () => {
-                this.actionCallback();
-            });
-        }
-        
-        // Prevent default touch behavior
-        document.addEventListener('touchmove', (e) => e.preventDefault(), { passive: false });
-    }
+
+setClickCallback(callback) {
+    this.clickCallback = callback;
+}
     
-    getDirection() {
-        let dirX = 0;
-        let dirY = 0;
-        
-        // Handle keyboard input
-        if (this.keys.ArrowUp) dirY -= 1;
-        if (this.keys.ArrowDown) dirY += 1;
-        if (this.keys.ArrowLeft) dirX -= 1;
-        if (this.keys.ArrowRight) dirX += 1;
-        
-        // If joystick is active, use its values instead
-        if (this.joystickActive) {
-            dirX = this.joystickVector.x;
-            dirY = -this.joystickVector.y; // Invert Y for isometric view
-        }
-        
-        return { x: dirX, y: dirY };
-    }
+// In InputManager.js - Update the getDirection method:
+getDirection() {
+    let dirX = 0;
+    let dirY = 0;
+    
+    // Handle keyboard input
+    if (this.keys.ArrowUp || this.keys.w || this.keys.W) dirY -= 1;
+    if (this.keys.ArrowDown || this.keys.s || this.keys.S) dirY += 1;
+    if (this.keys.ArrowLeft || this.keys.a || this.keys.A) dirX -= 1;
+    if (this.keys.ArrowRight || this.keys.d || this.keys.D) dirX += 1;
+    
+    
+    return { x: dirX, y: dirY };
+}
     
     setActionCallback(callback) {
         this.actionCallback = callback;
